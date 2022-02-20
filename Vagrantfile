@@ -48,10 +48,17 @@ $dockerLoginScript = <<-SCRIPT
 SCRIPT
 
 $installRbenvScript = <<-SCRIPT
-  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-  git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-  echo 'export PATH="\$HOME/.rbenv/bin:\$PATH"' >> ~/.bash_profile
-  echo 'eval "\$(rbenv init -)"' >> ~/.bash_profile
+  if [ ! -d ~/.rbenv ]
+  then
+    git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+    git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+  fi
+
+  if ! grep -q rbenv ~/.bash_profile
+  then
+    echo 'export PATH="\$HOME/.rbenv/bin:\$PATH"' >> ~/.bash_profile
+    echo 'eval "\$(rbenv init -)"' >> ~/.bash_profile
+  fi
 SCRIPT
 
 $installPythonScript = <<-SCRIPT
