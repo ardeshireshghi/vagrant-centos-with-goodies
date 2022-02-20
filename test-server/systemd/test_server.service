@@ -1,0 +1,16 @@
+[Unit]
+Description=Test server demo service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/home/vagrant/workspace/server
+Environment="PATH=/home/vagrant/workspace/server/venv/bin"
+RestartSec=1
+User=vagrant
+ExecStart=/home/vagrant/workspace/server/venv/bin/gunicorn --workers 3 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 main:app 
+
+[Install]
+WantedBy=multi-user.target
